@@ -1,0 +1,66 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.blue {
+  background-color: rgb(197, 241, 254);
+}
+
+.red {
+  background-color: rgb(255,157,158);
+}
+
+
+
+
+
+/* pk按钮 */
+.pk{
+  margin-top: 29px;
+  margin-bottom: 20px;
+  flex-direction: row;
+}
+.p,.k{
+   width:240px;
+  height:64px;
+  border: 0px;
+}
+
+.pf{
+  position: relative;
+  transform: translateX(10px);
+}
+
+
+
+/* .image{
+
+}
+
+.count{
+
+} */
+
+/* 主图 */
+.fengmianImage{
+  margin-right: 20px;
+  width:617.4px;
+  height:347.9px;
+}
+
+
+/* 疯狂点赞 */
+.onloadImage{
+  margin-top: 40.5px;
+  width: 686px;
+  height: 132px;
+  /* background-image: linear-gradient(to right,#3A5AF5,#E72CB1); */
+  border: 0px;
+  border-radius: 50px;
+  box-shadow: 2px 2px 4px black;
+}
+
+
