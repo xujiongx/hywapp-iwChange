@@ -1,0 +1,12 @@
+.uploadButtonClub {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin: 40px 0;
+}
+
+.uploadButton {
+    width: 200px;
+    border-radius: 40px;
+}

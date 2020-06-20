@@ -12,7 +12,7 @@ class App extends Component {
     super(props)
     this.state = {
       colorCheck: 1,
-      sec: 300
+      sec: 0
     }
   }
 
@@ -37,21 +37,38 @@ class App extends Component {
 
   //倒计时事件
   overTime = () => {
-    let s = 200
     let timeout = setInterval(() => {
       console.log(111);
       this.setState({
         sec: this.state.sec - 1
       })
+      if (this.state.sec == 0) clearInterval(timeout)
     }, 1000)
-    if (this.state.sec === 0) clearInterval(timeout)
+    
   }
 
   componentDidMount() {
-    this.overTime()
+    // this.overTime()
+    hyExt.onLoad(()=>{
+      this.messageEventListener()
+    })
+  }
+
+  // 接受主播端倒计时
+  messageEventListener=()=>{
+    hyExt.observer.on('message-push', sec => {
+      console.log("[message]:",sec);    //监听到message-push消息后打印出来
+      this.setState({
+        sec:sec
+      })
+      this.overTime()
+    })
   }
 
   render() {
+    // 倒计时显示
+    let timeText=null
+    this.state.sec==0?timeText=<Text className='overTime'>(倒计时结束)</Text>:timeText=<Text className='overTime'>(倒计时:{this.state.sec} s)</Text>;
     return (
       <View className={this.state.colorCheck === 1 ? 'container blue' : 'container red'}>
         <View className='pk'>
@@ -71,7 +88,8 @@ class App extends Component {
 
         <View className='count' onClick={this.dianzhan}>
           <img src={IMAGES.DIANZHAN} className='onloadImage' alt="" />
-          <Text className='overTime'>(倒计时:{this.state.sec} s)</Text>
+          {timeText}
+          {/* <Text className='overTime'>(倒计时:{this.state.sec} s)</Text> */}
         </View>
 
 

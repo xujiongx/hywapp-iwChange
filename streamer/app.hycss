@@ -63,4 +63,9 @@
   box-shadow: 2px 2px 4px black;
 }
 
+.tiemSelectStyle{
+  /* width: 20px ; */
+  border-radius: 50px;
+}
+
 
