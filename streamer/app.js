@@ -15,21 +15,21 @@ class App extends Component {
       value: 0,
       imageP: '',
       imageK: '',
-      showImageP:'',
-      showImageK:''
+      showImageP: '',
+      showImageK: ''
     }
   }
 
   // 切换到P
   checkToP = () => {
-    Tip.show(`切换到P成功!`, 2000, 'center')
+    Tip.show(`切换到P成功l!`, 1000, 'center')
     this.setState({
       colorCheck: 1,
     })
   }
   // 切换到K
   checkToK = () => {
-    Tip.show(`切换到K成功!`, 2000, 'center')
+    Tip.show(`切换到K成功!`, 1000, 'center')
     this.setState({
       colorCheck: 0,
     })
@@ -55,38 +55,48 @@ class App extends Component {
 
   // 向后端发送图片地址
   setImageArr = () => {
-    let {imageP,imageK}=this.state
-    let args = {
-      url: 'http://localhost:3000/getImages',
-      method: 'POST',
-      data: {
-        imgArr: {imageP,imageK}
-      },
-      dataType: 'json'
-    }
-    this.state.imgArr ? (hyExt.request(args).then(resp => {
-      hyExt.logger.info('发送HTTP请求成功，返回：' + JSON.stringify(resp))
-    }).catch(err => {
-      hyExt.logger.info('发送HTTP请求失败，错误信息：' + err.message)
-    })) : Tip.show("请上传图片", 1000, 'center')
+    let { imageP, imageK } = this.state
+    // let args = {
+    //   url: 'https://localhost:3000/getImages',
+    //   method: 'POST',
+    //   data: {
+    //     msg: '发送主播选定图片地址',
+    //     imgArr: { imageP, imageK }
+    //   },
+    //   dataType: 'json'
+    // }
+    // this.state.imgArr ? (hyExt.request(args).then(resp => {
+    //   hyExt.logger.info('发送HTTP请求成功，返回：' + JSON.stringify(resp))
+    // }).catch(err => {
+    //   hyExt.logger.info('发送HTTP请求失败，错误信息：' + err.message)
+    // })) : Tip.show("请上传图片", 1000, 'center')
     console.log({
       msg: 'success',
-      imgArr: this.state.imgArr
+      imgArr: { imageP, imageK}
     })
+    this.getShowImages()
   }
 
   //获得显示图片地址
-  getShowImages=()=> {
-    let obj={
-      url: 'http://localhost:3000/string',
-      method: 'GET',
-      dataType: 'json'
-    }
-    hyExt.request(obj).then(res=>{
-      console.log(res);
-    }).catch(err => {
-      console.log(err);
-      
+  getShowImages = () => {
+    // let obj = {
+    //   url: 'http://localhost:3000/string',
+    //   method: 'GET',
+    //   dataType: 'json'
+    // }
+    // hyExt.request(obj).then(res => {
+    //   console.log(res);
+    //   this.setState({
+    //     showImageP:res.imgArr.imageP,
+    //     showImageK:res.imgArr.imageK,
+    //   })
+    // }).catch(err => {
+    //   console.log(err);
+
+    // })
+    this.setState({
+      showImageP: this.state.imageP,
+      showImageK: this.state.imageK,
     })
   }
 
@@ -147,8 +157,7 @@ class App extends Component {
 
         {/* 图片渲染 */}
         <View className='image'>
-          {/* {this.state.imgArr?} */}
-          <img src={this.state.colorCheck === 1 ? IMAGES.FENGMIAN : IMAGES.CC} alt="" className='fengmianImage' />
+          <img src={this.state.colorCheck === 1 ? (this.state.showImageP || IMAGES.FAIL) : (this.state.showImageK || IMAGES.FAIL)} alt="" className='fengmianImage' />
         </View>
 
         {/* 上传图片按钮 */}
@@ -173,10 +182,8 @@ class App extends Component {
           body={
             //  <FileUpLoad></FileUpLoad>
             <View className='uploadButtonClub'>
-              {/* <Button className='uploadButton' type='info' size='sm' onPress={() => { this.imageUpLoadP() }}>P图片</Button>
-              <Button className='uploadButton' type='danger' size='sm' onPress={() => { this.imageUpLoadK() }}>K图片</Button> */}
-              {this.state.imageP==''?<Button className='uploadButton' type='info' size='sm' onPress={() => { this.imageUpLoadP() }}>P图片</Button>:<img className='uploadButton' src={this.state.imageP}></img>}
-              {this.state.imageK==''?<Button className='uploadButton' type='danger' size='sm' onPress={() => { this.imageUpLoadK() }}>K图片</Button>:<img className='uploadButton' src={this.state.imageK}></img>}
+              {this.state.imageP == '' ? <Button className='uploadButton' type='info' size='sm' onPress={() => { this.imageUpLoadP() }}>P图片</Button> : <img className='uploadButton' src={this.state.imageP}></img>}
+              {this.state.imageK == '' ? <Button className='uploadButton' type='danger' size='sm' onPress={() => { this.imageUpLoadK() }}>K图片</Button> : <img className='uploadButton' src={this.state.imageK}></img>}
             </View>
           }
           cancelCallback={() => {

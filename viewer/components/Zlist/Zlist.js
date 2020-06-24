@@ -17,6 +17,26 @@ class Zlist extends React.Component {
             ]
         }
     }
+
+    // 获取用户点赞列表，目前只获取前十行
+    getUserList = () => {
+        console.log('获取用户点赞列表');
+        let { colorCheck } = this.props
+        let obj = {
+            url: '',
+            type: 'GET',
+            data: {
+                imageSelect: colorCheck
+            },
+            dataType: 'json'
+        }
+        hyExt.request(obj).then(res => {
+            this.setState({
+                user: res.data.user
+            })
+        })
+    }
+
     render() {
         return (
             <View className={this.props.colorCheck === 1 ? 'zList blueb' : 'zList redb'}>
@@ -32,7 +52,7 @@ class Zlist extends React.Component {
                     {
                         this.state.user.map((item, index) => {
                             return (<View key={index} className='userLi'>
-                                
+
                                 <Text className={this.props.colorCheck === 1 ? 'blueText' : 'redText'}>{item.no}</Text>
 
                                 <View className='userLi_Two'>
