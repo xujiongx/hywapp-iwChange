@@ -35,7 +35,7 @@
     margin-top: 70px;
     margin-bottom: 20px;
     background-color: #F4F6FC;
-    min-height: 480px;
+    /* min-height: 480px; */
 }
 
 /* 助力榜单 */
@@ -75,7 +75,7 @@
 .userUl {
     width: 628px;
     margin: 0 auto;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 /* 每个用户 */
@@ -105,4 +105,10 @@
     width: 64px;
     border-radius: 50%;
     margin-right: 25px;
+}
+
+
+.helpText{
+    text-align: center;
+    margin:40px 0;
 }

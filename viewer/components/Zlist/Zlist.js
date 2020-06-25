@@ -3,41 +3,16 @@ import { UI } from '@hyext/hy-ui'
 import './Zlist.hycss'
 
 const { View, Text } = UI
+const hyExt = global.hyExt
 
 class Zlist extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            user: [
-                { no: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-                { no: 2, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-                { no: 3, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-                { no: 4, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-                { no: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' }, { no: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我', countNumber: '100' }, { no: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' }, { no: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙vsdcsdcd', countNumber: '100' }, { no: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' }, { no: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-            ]
-        }
-    }
-
-    // 获取用户点赞列表，目前只获取前十行
-    getUserList = () => {
-        console.log('获取用户点赞列表');
-        let { colorCheck } = this.props
-        let obj = {
-            url: '',
-            type: 'GET',
-            data: {
-                imageSelect: colorCheck
-            },
-            dataType: 'json'
-        }
-        hyExt.request(obj).then(res => {
-            this.setState({
-                user: res.data.user
-            })
-        })
     }
 
     render() {
+        let selector = null;
+        this.props.colorCheck == 1 ? selector = this.props.userList.P : selector = this.props.userList.K;
         return (
             <View className={this.props.colorCheck === 1 ? 'zList blueb' : 'zList redb'}>
                 <View className={this.props.colorCheck === 1 ? 'zhuLi blueb bluebg' : 'zhuLi redb redbg'}>
@@ -48,25 +23,32 @@ class Zlist extends React.Component {
                     <Text className='lh62 whiteText'>用户名</Text>
                     <Text className='lh62 whiteText'>票数</Text>
                 </View>
-                <View className='userUl'>
-                    {
-                        this.state.user.map((item, index) => {
-                            return (<View key={index} className='userLi'>
 
-                                <Text className={this.props.colorCheck === 1 ? 'blueText' : 'redText'}>{item.no}</Text>
+                {Object.keys(this.props.userList)  == 0 ?
+                    <View>
+                        <Text className='helpText'>
+                            暂无用户助力
+                    </Text>
+                    </View> :
+                    <View className='userUl'>
+                        {
+                            selector.map((item, index) => {
+                                return (<View key={index} className='userLi'>
+                                    <Text className={this.props.colorCheck === 1 ? 'blueText' : 'redText'}>{item.no}</Text>
 
-                                <View className='userLi_Two'>
-                                    <Text><img src={item.userAvatarUrl} className='userLI_userAvatarUrl' /></Text>
-                                    <Text className={this.props.colorCheck === 1 ? 'blueText' : 'redText'}>{item.userNick.substring(0, 7)}</Text>
-                                </View>
-                                <Text className={this.props.colorCheck === 1 ? 'blueText' : 'redText'}>{item.countNumber}</Text>
-                            </View>)
-                        })
-                    }
+                                    <View className='userLi_Two'>
+                                        <Text><img src={item.userAvatarUrl} className='userLI_userAvatarUrl' /></Text>
+                                        <Text className={this.props.colorCheck === 1 ? 'blueText' : 'redText'}>{item.userNick.substring(0, 7)}</Text>
+                                    </View>
+                                    <Text className={this.props.colorCheck === 1 ? 'blueText' : 'redText'}>{item.countNumber}</Text>
+                                </View>)
+                            })
+                        }
+                    </View>
 
 
-                </View>
 
+                }
             </View>
         )
     }

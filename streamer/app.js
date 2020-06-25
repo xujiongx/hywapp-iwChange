@@ -16,7 +16,8 @@ class App extends Component {
       imageP: '',
       imageK: '',
       showImageP: '',
-      showImageK: ''
+      showImageK: '',
+      userList: {}
     }
   }
 
@@ -36,22 +37,23 @@ class App extends Component {
   }
   //点击上传图片
   dianzhan = () => {
-    this.getShowImages()
     // 打开上传图片弹窗
     this._modalA.open()
   }
 
   //向客户端设置倒计时
-  setOverTime = () => {
-    let { value } = this.state
-    hyExt.observer.emit('message-push', value).then((res) => {
-      console.log("设置倒计时成功")
-    }
-    ).catch((err) => {
-      console.log(err);
-    })
-    this.startOverTime()
-  }
+  // setOverTime = () => {
+  //   let { value } = this.state
+  //   hyExt.observer.emit('message-push', value).then((res) => {
+  //     console.log("设置倒计时成功")
+  //   }
+  //   ).catch((err) => {
+  //     console.log(err);
+  //   })
+  //   this.startOverTime()
+  // }
+
+
 
   // 向后端发送图片地址
   setImageArr = () => {
@@ -72,7 +74,7 @@ class App extends Component {
     // })) : Tip.show("请上传图片", 1000, 'center')
     console.log({
       msg: 'success',
-      imgArr: { imageP, imageK}
+      imgArr: { imageP, imageK }
     })
     this.getShowImages()
   }
@@ -87,8 +89,8 @@ class App extends Component {
     // hyExt.request(obj).then(res => {
     //   console.log(res);
     //   this.setState({
-    //     showImageP:res.imgArr.imageP,
-    //     showImageK:res.imgArr.imageK,
+    //     showImageP:res.data.imageP,
+    //     showImageK:res.data.imageK,
     //   })
     // }).catch(err => {
     //   console.log(err);
@@ -99,6 +101,42 @@ class App extends Component {
       showImageK: this.state.imageK,
     })
   }
+
+  // 获取用户点赞列表，目前只获取前十行
+  getUserList = () => {
+    // console.log('获取用户点赞列表');
+    // let { colorCheck } = this.props
+    // let obj = {
+    //     url: '',
+    //     type: 'GET',
+    //     data: {
+    //         imageSelect: colorCheck
+    //     },
+    //     dataType: 'json'
+    // }
+    // hyExt.request(obj).then(res => {
+    //     this.setState({
+    //         userList: res.data.userList
+    //     })
+    // })
+    this.setState({
+      userList: {
+        P: [
+          { no: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎呀', countNumber: '100' },
+          // { no: 2, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+          // { no: 3, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+          // { no: 4, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+          // { no: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' }, { no: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我', countNumber: '100' }, { no: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' }, { no: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙vsdcsdcd', countNumber: '100' }, { no: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' }, { no: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎', countNumber: '100' },
+        ],
+        K: [
+          { no: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+          { no: 2, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+          { no: 3, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+        ]
+      }
+    })
+  }
+
 
   // getStreamInfo = () => {
   //     hyExt.logger.info('获取当前直播间主播信息')
@@ -172,7 +210,7 @@ class App extends Component {
 
 
         {/* 列表组件 */}
-        <Zlist colorCheck={this.state.colorCheck}></Zlist>
+        <Zlist colorCheck={this.state.colorCheck} userList={this.state.userList}></Zlist>
 
 
         {/* 图片上传弹窗 */}
@@ -192,6 +230,8 @@ class App extends Component {
           confirmCallback={() => {
             console.log('confirm')
             this.setImageArr()
+            this.getShowImages()
+            this.getUserList()
           }}
         >
 
