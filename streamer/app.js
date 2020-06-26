@@ -11,14 +11,20 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      colorCheck: 1,
+      colorCheck: 1,  //主题切换
       value: 0,
-      imageP: '',
-      imageK: '',
-      showImageP: '',
-      showImageK: '',
-      userList: {}
+      imageP: '',     //P的图片预览
+      imageK: '',     //K的图片预览
+      showImageP: '', //P的图片显示
+      showImageK: '', //K的图片显示
+      userList: {}    //用户点赞列表
     }
+  }
+
+
+  componentDidMount(){
+    this.getShowImages()
+    this.getUserList()
   }
 
   // 切换到P
@@ -30,7 +36,7 @@ class App extends Component {
   }
   // 切换到K
   checkToK = () => {
-    Tip.show(`切换到K成功!`, 1000, 'center')
+    Tip.show(`切换到K成功1!`, 1000, 'center')
     this.setState({
       colorCheck: 0,
     })
@@ -77,6 +83,15 @@ class App extends Component {
       imgArr: { imageP, imageK }
     })
     this.getShowImages()
+    this.cleanImage()
+  }
+
+  //清空预览图片
+  cleanImage = () => {
+    this.setState({
+      imageP: '',
+      imageK: ''
+    })
   }
 
   //获得显示图片地址
@@ -184,6 +199,7 @@ class App extends Component {
   render() {
     return (
       <View className={this.state.colorCheck === 1 ? 'container blue' : 'container red'}>
+        {/* PK按钮 */}
         <View className='pk'>
           <View className='pf'>
             <img src={IMAGES.P} className='p' alt="" onClick={this.checkToP} />
@@ -195,7 +211,7 @@ class App extends Component {
 
         {/* 图片渲染 */}
         <View className='image'>
-          <img src={this.state.colorCheck === 1 ? (this.state.showImageP || IMAGES.FAIL) : (this.state.showImageK || IMAGES.FAIL)} alt="" className='fengmianImage' />
+          <img src={this.state.colorCheck === 1 ? (this.state.showImageP || IMAGES.FAIL) : (this.state.showImageK || IMAGES.FAIL)} alt="" className='mainImage' />
         </View>
 
         {/* 上传图片按钮 */}
@@ -203,13 +219,13 @@ class App extends Component {
           <img src={IMAGES.LOADIMAGE} className='onloadImage' alt="" />
         </View>
 
-        {/* 时间选择 */}
+        {/* 时间选择 (待办)*/}
         {/* <View className='timeSelect'>
           <Button className='tiemSelectStyle' type='info' size='sm' onPress={() => { this._dialog1.open() }} >时间抉择</Button>
         </View> */}
 
 
-        {/* 列表组件 */}
+        {/* 列表组件 params(colorCheck,userList) */}
         <Zlist colorCheck={this.state.colorCheck} userList={this.state.userList}></Zlist>
 
 
@@ -220,12 +236,17 @@ class App extends Component {
           body={
             //  <FileUpLoad></FileUpLoad>
             <View className='uploadButtonClub'>
-              {this.state.imageP == '' ? <Button className='uploadButton' type='info' size='sm' onPress={() => { this.imageUpLoadP() }}>P图片</Button> : <img className='uploadButton' src={this.state.imageP}></img>}
-              {this.state.imageK == '' ? <Button className='uploadButton' type='danger' size='sm' onPress={() => { this.imageUpLoadK() }}>K图片</Button> : <img className='uploadButton' src={this.state.imageK}></img>}
+              {this.state.imageP == '' ?
+                <Button className='uploadButton' type='info' size='sm' onPress={() => { this.imageUpLoadP() }}>P图片</Button> :
+                <img className='uploadButton' src={this.state.imageP}></img>}
+              {this.state.imageK == '' ?
+                <Button className='uploadButton' type='danger' size='sm' onPress={() => { this.imageUpLoadK() }}>K图片</Button> :
+                <img className='uploadButton' src={this.state.imageK}></img>}
             </View>
           }
           cancelCallback={() => {
             console.log('cancel')
+            this.cleanImage()
           }}
           confirmCallback={() => {
             console.log('confirm')

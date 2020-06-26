@@ -46,7 +46,7 @@
 } */
 
 /* 主图 */
-.fengmianImage{
+.mainImage{
   margin-right: 20px;
   width:617.4px;
   height:347.9px;
