@@ -177,21 +177,21 @@ class App extends Component {
       <View className={this.state.colorCheck === 1 ? 'container blue' : 'container red'}>
         <View className='pk'>
           <View className='pf'>
-            <img src={IMAGES.P} className='p' alt="" onClick={this.checkToP} />
+            <Image src={IMAGES.P}  className='p' alt="" onClick={this.checkToP} />
           </View>
           <View className='kf'>
-            <img src={IMAGES.K} className='k' alt="" onClick={this.checkToK} />
+            <Image src={IMAGES.K }  className='k' alt="" onClick={this.checkToK} />
           </View>
 
 
         </View>
 
         <View className='image'>
-          <img src={this.state.colorCheck === 1 ? this.state.showImageP || IMAGES.FAIL : this.state.showImageK || IMAGES.FAIL} alt="" className='fengmianImage' />
+          <Image src={this.state.colorCheck === 1 ? this.state.showImageP || IMAGES.FAIL : this.state.showImageK || IMAGES.FAIL} alt="" className='fengmianImage' />
         </View>
 
         <View className='count' onClick={this.dianzhan}>
-          <img src={IMAGES.DIANZHAN} className='onloadImage' alt="" />
+          <Image src={IMAGES.DIANZHAN} className='onloadImage' alt="" />
           {/* {timeText} */}
           {/* <Text className='overTime'>(倒计时:{this.state.sec} s)</Text> */}
         </View>

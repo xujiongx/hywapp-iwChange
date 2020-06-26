@@ -2,7 +2,7 @@ import React from 'react'
 import { UI } from '@hyext/hy-ui'
 import './Zlist.hycss'
 
-const { View, Text } = UI
+const { View, Text,Image } = UI
 const hyExt = global.hyExt
 
 class Zlist extends React.Component {
@@ -37,7 +37,7 @@ class Zlist extends React.Component {
                                     <Text className={this.props.colorCheck === 1 ? 'blueText' : 'redText'}>{item.no}</Text>
 
                                     <View className='userLi_Two'>
-                                        <Text><img src={item.userAvatarUrl} className='userLI_userAvatarUrl' /></Text>
+                                        <Text><Image src={item.userAvatarUrl} className='userLI_userAvatarUrl' /></Text>
                                         <Text className={this.props.colorCheck === 1 ? 'blueText' : 'redText'}>{item.userNick.substring(0, 7)}</Text>
                                     </View>
                                     <Text className={this.props.colorCheck === 1 ? 'blueText' : 'redText'}>{item.countNumber}</Text>

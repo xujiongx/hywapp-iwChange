@@ -202,21 +202,21 @@ class App extends Component {
         {/* PK按钮 */}
         <View className='pk'>
           <View className='pf'>
-            <img src={IMAGES.P} className='p' alt="" onClick={this.checkToP} />
+            <Image src={IMAGES.P} className='p' alt="" onClick={this.checkToP} />
           </View>
           <View className='kf'>
-            <img src={IMAGES.K} className='k' alt="" onClick={this.checkToK} />
+            <Image src={IMAGES.K} className='k' alt="" onClick={this.checkToK} />
           </View>
         </View>
 
         {/* 图片渲染 */}
         <View className='image'>
-          <img src={this.state.colorCheck === 1 ? (this.state.showImageP || IMAGES.FAIL) : (this.state.showImageK || IMAGES.FAIL)} alt="" className='mainImage' />
+          <Image src={this.state.colorCheck === 1 ? (this.state.showImageP || IMAGES.FAIL) : (this.state.showImageK || IMAGES.FAIL)} alt="" className='mainImage' />
         </View>
 
         {/* 上传图片按钮 */}
         <View className='count' onClick={this.dianzhan}>
-          <img src={IMAGES.LOADIMAGE} className='onloadImage' alt="" />
+          <Image src={IMAGES.LOADIMAGE} className='onloadImage' alt="" />
         </View>
 
         {/* 时间选择 (待办)*/}
@@ -238,10 +238,10 @@ class App extends Component {
             <View className='uploadButtonClub'>
               {this.state.imageP == '' ?
                 <Button className='uploadButton' type='info' size='sm' onPress={() => { this.imageUpLoadP() }}>P图片</Button> :
-                <img className='uploadButton' src={this.state.imageP}></img>}
+                <Image className='uploadButton' src={this.state.imageP}></Image>}
               {this.state.imageK == '' ?
                 <Button className='uploadButton' type='danger' size='sm' onPress={() => { this.imageUpLoadK() }}>K图片</Button> :
-                <img className='uploadButton' src={this.state.imageK}></img>}
+                <Image className='uploadButton' src={this.state.imageK}></Image>}
             </View>
           }
           cancelCallback={() => {
