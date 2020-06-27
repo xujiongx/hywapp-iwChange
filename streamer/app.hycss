@@ -25,9 +25,8 @@
   flex-direction: row;
 }
 .p,.k{
-   width:240px;
+   width:260px;
   height:64px;
-  border: 0px;
 }
 
 .pf{
@@ -53,7 +52,7 @@
 }
 
 
-/* 疯狂点赞 */
+/* 上传图片 */
 .onloadImage{
   margin-top: 40.5px;
   width: 686px;

@@ -39,7 +39,7 @@ class Zlist extends React.Component {
                         {
                             selector.map((item, index) => {
                                 return (<View key={index} className='userLi'>
-                                    <Text className={this.props.colorCheck === 1 ? 'blueText' : 'redText'}>{item.no}</Text>
+                                    <Text className={this.props.colorCheck === 1 ? 'blueText' : 'redText'}>{item.rowid}</Text>
 
                                     <View className='userLi_Two'>
                                         <Text><Image src={item.userAvatarUrl} className='userLI_userAvatarUrl' /></Text>

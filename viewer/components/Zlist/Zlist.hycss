@@ -21,11 +21,11 @@
 /* 背景 */
 .bluebg{
     /* background-image: linear-gradient(to right, #00B4F8, #0066EB); */
-    background-color: blue;
+    background-color: #375BF7;
 }
 .redbg{
     /* background-image: linear-gradient(to right,#EA4D85,#F86B6A); */
-    background-color: red;
+    background-color: #EA2BB0;
 }
 
 
@@ -35,9 +35,8 @@
     border: 1px solid;
     border-radius: 20px;
     margin-top: 70px;
-    margin-bottom: 20px;
+    margin-bottom: 60px;
     background-color: #F4F6FC;
-    /* min-height: 480px; */
 }
 
 /* 助力榜单 */
@@ -106,7 +105,7 @@
 .userLI_userAvatarUrl {
     width: 64px;
     height: 64px;
-    border-radius: 150px;
+    border-radius: 40px;
     margin-right: 25px;
 }
 

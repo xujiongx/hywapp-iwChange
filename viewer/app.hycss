@@ -20,20 +20,18 @@
 
 /* pk按钮 */
 .pk{
-  margin-top: 29px;
-  margin-bottom: 20px;
+  margin:30px;
   flex-direction: row;
 }
 .p,.k{
-   width:240px;
+   width:260px;
   height:64px;
-  border: 0px;
 }
 
-/* .pf{
+.pf{
   position: relative;
   transform: translateX(10px);
-} */
+}
 
 
 
@@ -55,7 +53,7 @@
   margin-right: 20px;
   width:617.4px;
   height:347.9px;
-  border-radius: 20px;
+  border-radius: 40px;
 }
 
 
@@ -65,7 +63,6 @@
   width: 686px;
   height: 132px;
   /* background-image: linear-gradient(to right,#3A5AF5,#E72CB1); */
-  border: 0px;
   border-radius: 50px;
   box-shadow: 2px 2px 4px black;
 }

@@ -1,3 +1,5 @@
+'use strict';
+import { TouchableWithoutFeedback } from 'react-native'
 import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './app.hycss'
@@ -5,11 +7,12 @@ import Zlist from './components/Zlist/Zlist'
 import IMAGES from '../assets/index'
 
 const hyExt = global.hyExt
-const { View, Text, Image, Button, Tip } = UI
+const { ScrollView, View, Text, Image, Button, Tip } = UI
 
 class App extends Component {
   constructor(props) {
     super(props)
+    this.$refs = React.createRef()
     this.state = {
       colorCheck: 1,
       // sec: 0,
@@ -22,14 +25,14 @@ class App extends Component {
 
   // 切换到P
   checkToP = () => {
-    Tip.show(`切换到P成功!`, 2000, 'center')
+    Tip.show(`切换到P成功!`, 1000, 'center')
     this.setState({
       colorCheck: 1,
     })
   }
   // 切换到K事件
   checkToK = () => {
-    Tip.show(`切换到K成功!`, 2000, 'center')
+    Tip.show(`切换到K成功!`, 1000, 'center')
     this.setState({
       colorCheck: 0,
     })
@@ -67,15 +70,15 @@ class App extends Component {
 
     Tip.show('点赞成功', 1000, 'center')
     this.setState({
-      userList:{
+      userList: {
         P: [
-          { no: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-          { no: 2, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '90' },
+          { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+          { rowid: 2, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '90' },
         ],
         K: [
-          { no: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-          { no: 2, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-          { no: 3, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+          { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+          { rowid: 2, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+          { rowid: 3, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
         ]
       }
     })
@@ -158,12 +161,13 @@ class App extends Component {
     this.setState({
       userList: {
         P: [
-          { no: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+          { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+          { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' }, { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
         ],
         K: [
-          { no: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-          { no: 2, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-          { no: 3, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+          { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+          { rowid: 2, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+          { rowid: 3, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
         ]
       }
     })
@@ -174,31 +178,44 @@ class App extends Component {
     // let timeText=null
     // this.state.sec==0?timeText=<Text className='overTime'>(倒计时结束)</Text>:timeText=<Text className='overTime'>(倒计时:{this.state.sec} s)</Text>;
     return (
-      <View className={this.state.colorCheck === 1 ? 'container blue' : 'container red'}>
-        <View className='pk'>
-          <View className='pf'>
-            <Image src={IMAGES.P}  className='p' alt="" onClick={this.checkToP} />
+      <ScrollView nestedScrollEnabled={true} scrollViewRef={this.$refs} >
+        <View className={this.state.colorCheck === 1 ? 'container blue' : 'container red'}>
+          <View className='pk'>
+            <TouchableWithoutFeedback onPress={this.checkToP}>
+              <View className='pf'>
+                <Image src={IMAGES.P} className='p' alt="" />
+              </View>
+            </TouchableWithoutFeedback>
+
+            <TouchableWithoutFeedback onPress={this.checkToK}>
+              <View className='kf'>
+                <Image src={IMAGES.K} className='k' alt="" />
+              </View>
+            </TouchableWithoutFeedback>
+
+
+
           </View>
-          <View className='kf'>
-            <Image src={IMAGES.K }  className='k' alt="" onClick={this.checkToK} />
+
+          <View className='image'>
+            <Image src={this.state.colorCheck === 1 ? this.state.showImageP || IMAGES.FAIL : this.state.showImageK || IMAGES.FAIL} alt="" className='fengmianImage' />
           </View>
 
+          <TouchableWithoutFeedback onPress={this.dianzhan}>
+            <View className='count'>
+              <Image src={IMAGES.DIANZHAN} className='onloadImage' alt="" />
+            </View>
+          </TouchableWithoutFeedback>
 
-        </View>
-
-        <View className='image'>
-          <Image src={this.state.colorCheck === 1 ? this.state.showImageP || IMAGES.FAIL : this.state.showImageK || IMAGES.FAIL} alt="" className='fengmianImage' />
-        </View>
-
-        <View className='count' onClick={this.dianzhan}>
-          <Image src={IMAGES.DIANZHAN} className='onloadImage' alt="" />
           {/* {timeText} */}
           {/* <Text className='overTime'>(倒计时:{this.state.sec} s)</Text> */}
+
+
+
+          <Zlist colorCheck={this.state.colorCheck} userList={this.state.userList}></Zlist>
         </View>
+      </ScrollView>
 
-
-        <Zlist colorCheck={this.state.colorCheck} userList={this.state.userList}></Zlist>
-      </View>
     )
   }
 }
