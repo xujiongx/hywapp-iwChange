@@ -21,8 +21,8 @@ class App extends Component {
     }
   }
 
-
-  componentDidMount(){
+  //生命周期
+  componentDidMount() {
     this.getShowImages()
     this.getUserList()
   }
@@ -41,26 +41,39 @@ class App extends Component {
       colorCheck: 0,
     })
   }
+  // 上传图片
+  imageUpLoadP = () => {
+    hyExt.logger.info('上传图片,')
+    hyExt.fs.uploadImg().then(imgInfo => {
+      this.setState({
+        imageP: imgInfo.url
+      })
+      Tip.show('上传P成功', 1000, 'center')
+    }).catch(err => {
+      hyExt.logger.info('上传图片失败，错误信息：' + err.message)
+      Tip.show('上传失败，请重新上传', 1000, 'center')
+
+    })
+
+  }
+  imageUpLoadK = () => {
+    hyExt.logger.info('上传图片,')
+    hyExt.fs.uploadImg().then(imgInfo => {
+      this.setState({
+        imageK: imgInfo.url
+      })
+      Tip.show('上传P成功', 1000, 'center')
+    }).catch(err => {
+      hyExt.logger.info('上传图片失败，错误信息：' + err.message)
+      Tip.show('上传失败，请重新上传', 1000, 'center')
+    })
+
+  }
   //点击上传图片
   dianzhan = () => {
     // 打开上传图片弹窗
     this._modalA.open()
   }
-
-  //向客户端设置倒计时
-  // setOverTime = () => {
-  //   let { value } = this.state
-  //   hyExt.observer.emit('message-push', value).then((res) => {
-  //     console.log("设置倒计时成功")
-  //   }
-  //   ).catch((err) => {
-  //     console.log(err);
-  //   })
-  //   this.startOverTime()
-  // }
-
-
-
   // 向后端发送图片地址
   setImageArr = () => {
     let { imageP, imageK } = this.state
@@ -85,15 +98,6 @@ class App extends Component {
     this.getShowImages()
     this.cleanImage()
   }
-
-  //清空预览图片
-  cleanImage = () => {
-    this.setState({
-      imageP: '',
-      imageK: ''
-    })
-  }
-
   //获得显示图片地址
   getShowImages = () => {
     // let obj = {
@@ -116,7 +120,6 @@ class App extends Component {
       showImageK: this.state.imageK,
     })
   }
-
   // 获取用户点赞列表，目前只获取前十行
   getUserList = () => {
     // console.log('获取用户点赞列表');
@@ -151,50 +154,26 @@ class App extends Component {
       }
     })
   }
+  //清空预览图片
+  cleanImage = () => {
+    this.setState({
+      imageP: '',
+      imageK: ''
+    })
+  }
 
-
-  // getStreamInfo = () => {
-  //     hyExt.logger.info('获取当前直播间主播信息')
-  //     hyExt.context.getStreamerInfo().then(streamerInfo => {
-  //         hyExt.logger.info('获取当前直播间主播信息成功，返回：' + JSON.stringify(streamerInfo))
-  //         console.log(streamerInfo);
-  //         console.log(this.state.imgArr)
-  //         let { streamerRoomId } = streamerInfo
-  //         this.setState({
-  //             streamerRoomId
-  //         })
-  //     }).catch(err => {
-  //         hyExt.logger.info('获取当前直播间主播信息失败，错误信息：' + err.message)
-  //     })
+  //待做
+  //向客户端设置倒计时
+  // setOverTime = () => {
+  //   let { value } = this.state
+  //   hyExt.observer.emit('message-push', value).then((res) => {
+  //     console.log("设置倒计时成功")
+  //   }
+  //   ).catch((err) => {
+  //     console.log(err);
+  //   })
+  //   this.startOverTime()
   // }
-  // 上传图片
-  imageUpLoadP = () => {
-    hyExt.logger.info('上传图片,')
-    hyExt.fs.uploadImg().then(imgInfo => {
-      this.setState({
-        imageP: imgInfo.url
-      })
-      Tip.show('上传P成功', 1000, 'center')
-    }).catch(err => {
-      hyExt.logger.info('上传图片失败，错误信息：' + err.message)
-      Tip.show('上传失败，请重新上传', 1000, 'center')
-
-    })
-
-  }
-  imageUpLoadK = () => {
-    hyExt.logger.info('上传图片,')
-    hyExt.fs.uploadImg().then(imgInfo => {
-      this.setState({
-        imageK: imgInfo.url
-      })
-      Tip.show('上传P成功', 1000, 'center')
-    }).catch(err => {
-      hyExt.logger.info('上传图片失败，错误信息：' + err.message)
-      Tip.show('上传失败，请重新上传', 1000, 'center')
-    })
-
-  }
 
   render() {
     return (
@@ -257,6 +236,7 @@ class App extends Component {
         >
 
         </Dialog>
+        
         {/* <FileUpLoad>haha</FileUpLoad> */}
 
         {/* 时间抉择弹窗 */}

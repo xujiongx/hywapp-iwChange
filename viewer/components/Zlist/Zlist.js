@@ -15,10 +15,10 @@ class Zlist extends React.Component {
         this.props.colorCheck == 1 ? selector = this.props.userList.P : selector = this.props.userList.K;
         return (
             <View className={this.props.colorCheck === 1 ? 'zList blueb' : 'zList redb'}>
-                <View className={this.props.colorCheck === 1 ? 'zhuLi blueb bluebg' : 'zhuLi redb redbg'}>
+                <View className={this.props.colorCheck === 1 ? 'zhuLi  bluebg' : 'zhuLi  redbg'}>
                     <Text className='zhuliText lh62 whiteText '>助力榜单</Text>
                 </View>
-                <View className={this.props.colorCheck === 1 ? 'zhuliHead bluebg blueb' : 'zhuliHead redbg redb'}>
+                <View className={this.props.colorCheck === 1 ? 'zhuliHead bluebg ' : 'zhuliHead redbg '}>
                     <Text className='lh62 whiteText' >排名</Text>
                     <Text className='lh62 whiteText'>用户名</Text>
                     <Text className='lh62 whiteText'>票数</Text>

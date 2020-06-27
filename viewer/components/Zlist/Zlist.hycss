@@ -20,12 +20,10 @@
 }
 /* 背景 */
 .bluebg{
-    /* background-image: linear-gradient(to right, #00B4F8, #0066EB); */
-    background-color: #375BF7;
+    background-color: #00B8F8;
 }
 .redbg{
-    /* background-image: linear-gradient(to right,#EA4D85,#F86B6A); */
-    background-color: #EA2BB0;
+    background-color: #FF1B72;
 }
 
 
@@ -66,10 +64,9 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    margin: 34px auto;
-    border: 1px solid #0DC4FF;
+    margin: 34px auto; 
     border-radius: 31px;
-    box-shadow: 0px 2px 5px #85BBCF;
+    box-shadow: 10px 4px 20px  #94d1e5;
 }
 
 /* 用户列表整体 */
