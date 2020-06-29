@@ -17,7 +17,8 @@ class App extends Component {
       imageK: '',     //K的图片预览
       showImageP: '', //P的图片显示
       showImageK: '', //K的图片显示
-      userList: {}    //用户点赞列表
+      userList: {},    //用户点赞列表
+      imgIdArr:[]
     }
   }
 
@@ -77,82 +78,83 @@ class App extends Component {
   // 向后端发送图片地址
   setImageArr = () => {
     let { imageP, imageK } = this.state
-    // let args = {
-    //   url: 'https://localhost:3000/getImages',
-    //   method: 'POST',
-    //   data: {
-    //     msg: '发送主播选定图片地址',
-    //     imgArr: { imageP, imageK }
-    //   },
-    //   dataType: 'json'
-    // }
-    // this.state.imgArr ? (hyExt.request(args).then(resp => {
-    //   hyExt.logger.info('发送HTTP请求成功，返回：' + JSON.stringify(resp))
-    // }).catch(err => {
-    //   hyExt.logger.info('发送HTTP请求失败，错误信息：' + err.message)
-    // })) : Tip.show("请上传图片", 1000, 'center')
-    console.log({
-      msg: 'success',
-      imgArr: { imageP, imageK }
+    console.log(imageP,imageK);
+    
+    let args = {
+      url: 'https://huyaxiaochengxu123456.xyz:8080/user/saveFile',
+      method: 'POST',
+      data: {
+        msg: '发送主播选定图片地址',
+        imgArr: [ imageP, imageK ]
+      },
+      dataType: 'json'
+    }
+    hyExt.request(args).then(resp => {
+      hyExt.logger.info('发送HTTP请求成功，返回：' + JSON.stringify(resp))
+      console.log(resp);
+      
+    }).catch(err => {
+      hyExt.logger.info('发送HTTP请求失败，错误信息：' + err.message)
     })
+    //  : Tip.show("请上传图片", 1000, 'center')
+
     this.getShowImages()
     this.cleanImage()
   }
   //获得显示图片地址
   getShowImages = () => {
-    // let obj = {
-    //   url: 'http://localhost:3000/string',
-    //   method: 'GET',
-    //   dataType: 'json'
-    // }
-    // hyExt.request(obj).then(res => {
-    //   console.log(res);
-    //   this.setState({
-    //     showImageP:res.data.imageP,
-    //     showImageK:res.data.imageK,
-    //   })
-    // }).catch(err => {
-    //   console.log(err);
-
-    // })
-    this.setState({
-      showImageP: this.state.imageP,
-      showImageK: this.state.imageK,
+    let obj = {
+      url: 'https://huyaxiaochengxu123456.xyz:8080/user/findFile',
+      method: 'GET',
+      dataType: 'json'
+    }
+    hyExt.request(obj).then(res => {
+      // let {imageP,imageK}=res.data.data.imgArr
+      // let {}
+      console.log(res);
+      this.setState({
+        showImageP:res.data.data.imageP,
+        showImageK:res.data.data.imageK,
+      })
+    }).catch(err => {
+      console.log(err);
     })
   }
   // 获取用户点赞列表，目前只获取前十行
   getUserList = () => {
-    // console.log('获取用户点赞列表');
-    // let { colorCheck } = this.props
-    // let obj = {
-    //     url: '',
-    //     type: 'GET',
-    //     data: {
-    //         imageSelect: colorCheck
-    //     },
-    //     dataType: 'json'
-    // }
-    // hyExt.request(obj).then(res => {
-    //     this.setState({
-    //         userList: res.data.userList
-    //     })
-    // })
-    this.setState({
-      userList: {
-        P: [
-          { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎呀', countNumber: '100' },
-          // { rowid: 2, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-          // { rowid: 3, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-          // { rowid: 4, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-          // { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' }, { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我', countNumber: '100' }, { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' }, { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙vsdcsdcd', countNumber: '100' }, { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' }, { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎', countNumber: '100' },
-        ],
-        K: [
-          { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-          { rowid: 2, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-          { rowid: 3, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-        ]
-      }
+    console.log('获取用户点赞列表');
+    let obj = {
+        url: 'https://huyaxiaochengxu123456.xyz:8080/user/findUser',
+        type: 'POST',
+        data:{
+          message:'请求用户点赞列表',
+          imgIdArr
+        },
+        dataType: 'json'
+    }
+    hyExt.request(obj).then(res => {
+      console.log(res);
+      
+        // this.setState({
+        //     userList: res.data.userList
+        // })
     })
+    // this.setState({
+    //   userList: {
+    //     P: [
+    //       { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎呀', countNumber: '100' },
+    //       // { rowid: 2, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+    //       // { rowid: 3, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+    //       // { rowid: 4, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+    //       // { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' }, { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我', countNumber: '100' }, { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' }, { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙vsdcsdcd', countNumber: '100' }, { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' }, { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎', countNumber: '100' },
+    //     ],
+    //     K: [
+    //       { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+    //       { rowid: 2, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+    //       { rowid: 3, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
+    //     ]
+    //   }
+    // })
   }
   //清空预览图片
   cleanImage = () => {
@@ -236,7 +238,7 @@ class App extends Component {
         >
 
         </Dialog>
-        
+
         {/* <FileUpLoad>haha</FileUpLoad> */}
 
         {/* 时间抉择弹窗 */}

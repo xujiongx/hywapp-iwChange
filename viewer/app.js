@@ -28,11 +28,11 @@ class App extends Component {
   // 生命周期
   componentDidMount() {
     // this.overTime()
+    this.getUserInfo()
     this.getShowImages()
     this.getUserList()
     hyExt.onLoad(() => {
       // this.messageEventListener()
-
     })
   }
   // 切换到P
@@ -52,16 +52,18 @@ class App extends Component {
   //获得显示图片地址
   getShowImages = () => {
     let obj = {
-      url: 'http://49.235.38.69:8181/user/findFile',
+      url: 'https://huyaxiaochengxu123456.xyz:8080/user/findFile',
       method: 'GET',
       dataType: 'json'
     }
     hyExt.request(obj).then(res => {
+      console.log('获取图片信息');
+      
       console.log(res);
-      this.setState({
-        showImageP: res.data.imgArr.P,
-        showImageK: res.data.imgArr.K,
-      })
+      // this.setState({
+      //   showImageP: res.data.imgArr.P,
+      //   showImageK: res.data.imgArr.K,
+      // })
     }).catch(err => {
       console.log(err);
     })
@@ -101,22 +103,28 @@ class App extends Component {
     //   }
     // })
   }
-  //点赞事件
-  dianzhan = () => {
-    // 获取用户信息
-    hyExt.context.getUserInfo(userInfo => {
+ // 获取用户信息
+  getUserInfo=()=>{
+    hyExt.context.getUserInfo().then(userInfo => {
+      console.log('用户信息');
+      console.log(userInfo);
+      
       this.setState({
         userInfo
       })
     }).catch(err => {
       console.log(err);
     })
+  }
+
+  //点赞事件
+  dianzhan = () => {
     //图片选择，根据id选择
     let imageId=null
     this.state.colorCheck==1?imageId= this.state.showImageP.id:imageId= this.state.showImageK.id;
     // 发送点赞请求
     let obj = {
-      url: 'http://49.235.38.69:8181/user/giveupa',
+      url: 'https://huyaxiaochengxu123456.xyz:8080/user/giveupa',
       method: 'POST',
       data: {
         message: '用户点赞',
@@ -128,6 +136,8 @@ class App extends Component {
     }
     hyExt.request(obj).then(res => {
       console.log(res);
+      console.log(this.state.userInfo);
+      
       Tip.show(`点赞成功!`, 2000, 'center')
     }).catch(err => {
       console.log(err);
