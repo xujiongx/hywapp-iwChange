@@ -1,3 +1,4 @@
+'use strict';
 import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './app.hycss'
@@ -12,35 +13,37 @@ class App extends Component {
     super(props)
     this.state = {
       colorCheck: 1,  //主题切换
-      value: 0,
+      // value: 0,
       imageP: '',     //P的图片预览
       imageK: '',     //K的图片预览
       showImageP: '', //P的图片显示
       showImageK: '', //K的图片显示
       userList: {},    //用户点赞列表
-      imgIdArr:[]
+      imgIdArr: []    //请求图片的id数组
     }
   }
 
   //生命周期
-  componentDidMount() {
+  UNSAFE_componentWillMount() {
     this.getShowImages()
-    this.getUserList()
   }
 
   // 切换到P
   checkToP = () => {
-    Tip.show(`切换到P成功l!`, 500, 'center')
+    Tip.show(`切换到P成功`, 500, 'center')
     this.setState({
       colorCheck: 1,
     })
+    this.getShowImages()
   }
   // 切换到K
   checkToK = () => {
-    Tip.show(`切换到K成功1!`, 500, 'center')
+    Tip.show(`切换到K成功`, 500, 'center')
     this.setState({
       colorCheck: 0,
     })
+    this.getShowImages()
+
   }
   // 上传图片
   imageUpLoadP = () => {
@@ -49,11 +52,10 @@ class App extends Component {
       this.setState({
         imageP: imgInfo.url
       })
-      Tip.show('上传P成功', 1000, 'center')
+      Tip.show('上传P成功', 500, 'center')
     }).catch(err => {
       hyExt.logger.info('上传图片失败，错误信息：' + err.message)
-      Tip.show('上传失败，请重新上传', 1000, 'center')
-
+      Tip.show('上传失败，请重新上传', 500, 'center')
     })
 
   }
@@ -63,14 +65,14 @@ class App extends Component {
       this.setState({
         imageK: imgInfo.url
       })
-      Tip.show('上传P成功', 1000, 'center')
+      Tip.show('上传P成功', 500, 'center')
     }).catch(err => {
       hyExt.logger.info('上传图片失败，错误信息：' + err.message)
-      Tip.show('上传失败，请重新上传', 1000, 'center')
+      Tip.show('上传失败，请重新上传', 500, 'center')
     })
 
   }
-  //点击上传图片
+  //点击上传图片按钮
   dianzhan = () => {
     // 打开上传图片弹窗
     this._modalA.open()
@@ -78,26 +80,26 @@ class App extends Component {
   // 向后端发送图片地址
   setImageArr = () => {
     let { imageP, imageK } = this.state
-    console.log(imageP,imageK);
-    
+    console.log(imageP, imageK);
+
     let args = {
       url: 'https://huyaxiaochengxu123456.xyz:8080/user/saveFile',
       method: 'POST',
       data: {
         msg: '发送主播选定图片地址',
-        imgArr: [ imageP, imageK ]
+        imgArr: [imageP, imageK]
       },
       dataType: 'json'
     }
+    (imageP==0||imageK==0)?
+    Tip.show("请上传图片", 500, 'top'): 
     hyExt.request(args).then(resp => {
       hyExt.logger.info('发送HTTP请求成功，返回：' + JSON.stringify(resp))
       console.log(resp);
-      
+
     }).catch(err => {
       hyExt.logger.info('发送HTTP请求失败，错误信息：' + err.message)
     })
-    //  : Tip.show("请上传图片", 1000, 'center')
-
     this.getShowImages()
     this.cleanImage()
   }
@@ -109,52 +111,48 @@ class App extends Component {
       dataType: 'json'
     }
     hyExt.request(obj).then(res => {
-      // let {imageP,imageK}=res.data.data.imgArr
-      // let {}
+      let { imageP, imageK } = res.data.data.imgArr
+      let { src: psrc, id: pid } = imageP
+      let { src: ksrc, id: kid } = imageK
+      console.log('获取图片信息');
       console.log(res);
       this.setState({
-        showImageP:res.data.data.imageP,
-        showImageK:res.data.data.imageK,
+        showImageP: psrc,
+        showImageK: ksrc,
+        imgIdArr: [kid, pid]
       })
-    }).catch(err => {
-      console.log(err);
+      console.log(this.state.imgIdArr);
+
     })
+      .then(() => {
+        this.getUserList()
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
   // 获取用户点赞列表，目前只获取前十行
   getUserList = () => {
     console.log('获取用户点赞列表');
+    let { imgIdArr } = this.state;
     let obj = {
-        url: 'https://huyaxiaochengxu123456.xyz:8080/user/findUser',
-        type: 'POST',
-        data:{
-          message:'请求用户点赞列表',
-          imgIdArr
-        },
-        dataType: 'json'
+      url: 'https://huyaxiaochengxu123456.xyz:8080/user/findUser',
+      method: 'POST',
+      data: {
+        message: '请求用户点赞列表',
+        imgIdArr
+      },
+      dataType: 'json'
     }
     hyExt.request(obj).then(res => {
       console.log(res);
-      
-        // this.setState({
-        //     userList: res.data.userList
-        // })
+      this.setState({
+        userList: res.data.data.userList
+      })
+    }).catch(err => {
+      console.log(err);
+
     })
-    // this.setState({
-    //   userList: {
-    //     P: [
-    //       { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎呀', countNumber: '100' },
-    //       // { rowid: 2, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-    //       // { rowid: 3, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-    //       // { rowid: 4, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-    //       // { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' }, { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我', countNumber: '100' }, { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' }, { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙vsdcsdcd', countNumber: '100' }, { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' }, { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎', countNumber: '100' },
-    //     ],
-    //     K: [
-    //       { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-    //       { rowid: 2, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-    //       { rowid: 3, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-    //     ]
-    //   }
-    // })
   }
   //清空预览图片
   cleanImage = () => {
@@ -227,13 +225,12 @@ class App extends Component {
           }
           cancelCallback={() => {
             console.log('cancel')
-            this.cleanImage()
+            this.cleanImage();
           }}
           confirmCallback={() => {
             console.log('confirm')
             this.setImageArr()
             this.getShowImages()
-            this.getUserList()
           }}
         >
 

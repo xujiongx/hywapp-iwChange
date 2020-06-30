@@ -12,7 +12,7 @@ class Zlist extends React.Component {
 
     render() {
         let selector = null;
-        this.props.colorCheck == 1 ? selector = this.props.userList.P : selector = this.props.userList.K;
+        this.props.colorCheck == 0 ? selector = this.props.userList.P : selector = this.props.userList.K;
         return (
             <View className={this.props.colorCheck === 1 ? 'zList blueb' : 'zList redb'}>
                 <View className={this.props.colorCheck === 1 ? 'zhuLi  bluebg' : 'zhuLi  redbg'}>

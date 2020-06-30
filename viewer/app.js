@@ -20,33 +20,48 @@ class App extends Component {
       showImageP: '',
       showImageK: '',
       userInfo: {},
-      userList: {}
+      userList: {},
+      imgIdArr: []
     }
   }
 
 
   // 生命周期
-  componentDidMount() {
+  UNSAFE_componentWillMount() {
     // this.overTime()
     this.getUserInfo()
     this.getShowImages()
-    this.getUserList()
     hyExt.onLoad(() => {
       // this.messageEventListener()
     })
   }
   // 切换到P
   checkToP = () => {
-    Tip.show(`切换到P成功!`, 1000, 'center')
+    Tip.show(`切换到P成功!`, 500, 'center')
     this.setState({
       colorCheck: 1,
     })
+    this.getShowImages()
   }
   // 切换到K事件
   checkToK = () => {
-    Tip.show(`切换到K成功!`, 1000, 'center')
+    Tip.show(`切换到K成功!`, 500, 'center')
     this.setState({
       colorCheck: 0,
+    })
+    this.getShowImages()
+  }
+
+  // 获取用户信息
+  getUserInfo = () => {
+    hyExt.context.getUserInfo().then(userInfo => {
+      console.log('用户信息');
+      console.log(userInfo);
+      this.setState({
+        userInfo
+      })
+    }).catch(err => {
+      console.log(err);
     })
   }
   //获得显示图片地址
@@ -57,71 +72,59 @@ class App extends Component {
       dataType: 'json'
     }
     hyExt.request(obj).then(res => {
+      let { imageP, imageK } = res.data.data.imgArr
+      let { src: psrc, id: pid } = imageP
+      let { src: ksrc, id: kid } = imageK
       console.log('获取图片信息');
-      
       console.log(res);
-      // this.setState({
-      //   showImageP: res.data.imgArr.P,
-      //   showImageK: res.data.imgArr.K,
-      // })
-    }).catch(err => {
-      console.log(err);
+      this.setState({
+        showImageP: psrc,
+        showImageK: ksrc,
+        imgIdArr: [kid, pid]
+      })
+      console.log(this.state.imgIdArr);
+
     })
-    // this.setState({
-    //   showImageP: 'https://x7ce6c529ad57cc7-cyvxhim7.hyext.com/extImg/ae60dec5c9/a7abf511a355a3c9.jpg',
-    //   showImageK: 'https://x7ce6c529ad57cc7-cyvxhim7.hyext.com/extImg/ae60dec5c9/81c64865e10621b7.jpg',
-    // })
+      .then(() => {
+        this.getUserList()
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
   // 获取用户点赞列表，目前只获取前十行
   getUserList = () => {
     console.log('获取用户点赞列表');
-    let { colorCheck } = this.props
+    let { imgIdArr } = this.state
     let obj = {
-      url: '',
-      type: 'GET',
+      url: 'https://huyaxiaochengxu123456.xyz:8080/user/findUser',
+      method: 'POST',
       data: {
-        imageSelect: colorCheck
+        message: '获取用户点赞列表',
+        imgIdArr
       },
       dataType: 'json'
     }
     hyExt.request(obj).then(res => {
+      console.log(res);
       this.setState({
-        userList: res.data.userList
-      })
-    })
-    // this.setState({
-    //   userList: {
-    //     P: [
-    //       { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-    //       { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' }, { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-    //     ],
-    //     K: [
-    //       { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-    //       { rowid: 2, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-    //       { rowid: 3, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-    //     ]
-    //   }
-    // })
-  }
- // 获取用户信息
-  getUserInfo=()=>{
-    hyExt.context.getUserInfo().then(userInfo => {
-      console.log('用户信息');
-      console.log(userInfo);
-      
-      this.setState({
-        userInfo
+        userList: res.data.data.userList
       })
     }).catch(err => {
       console.log(err);
+
     })
+
   }
 
+
   //点赞事件
-  dianzhan = () => {
+  giveLive = () => {
+    let { colorCheck, imgIdArr, userInfo } = this.state
     //图片选择，根据id选择
-    let imageId=null
-    this.state.colorCheck==1?imageId= this.state.showImageP.id:imageId= this.state.showImageK.id;
+    let imageId = null
+    this.state.colorCheck == 1 ? imageId = imgIdArr[1] : imageId = imgIdArr[0];
+    console.log("点赞",imageId,colorCheck,userInfo);
     // 发送点赞请求
     let obj = {
       url: 'https://huyaxiaochengxu123456.xyz:8080/user/giveupa',
@@ -129,34 +132,24 @@ class App extends Component {
       data: {
         message: '用户点赞',
         imageId,
-        userInfo: this.state.userInfo,
+        imageSelect: colorCheck,
+        userInfo,
         number: 1,
       },
       dataType: 'json'
     }
     hyExt.request(obj).then(res => {
       console.log(res);
-      console.log(this.state.userInfo);
-      
+      // console.log(this.state.userInfo);
+
       Tip.show(`点赞成功!`, 2000, 'center')
-    }).catch(err => {
+    })
+    .then(()=>{
+      this.getUserList()
+    })
+    .catch(err => {
       console.log(err);
     })
-
-
-    // this.setState({
-    //   userList: {
-    //     P: [
-    //       { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-    //       { rowid: 2, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一k颗小虎牙', countNumber: '90' },
-    //     ],
-    //     K: [
-    //       { rowid: 1, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-    //       { rowid: 2, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-    //       { rowid: 3, userAvatarUrl: 'https://huyaimg.msstatic.com/avatar/1004/ae/60dec5c9af3bd927bce507b1e7626a_180_135.jpg?1591330880', userNick: '我是一颗小虎牙', countNumber: '100' },
-    //     ]
-    //   }
-    // })
   }
 
 
@@ -169,7 +162,7 @@ class App extends Component {
   //       sec: this.state.sec - 1
   //     })
   //     if (this.state.sec == 0) clearInterval(timeout)
-  //   }, 1000)
+  //   }, 500)
 
   // }
 
@@ -207,11 +200,11 @@ class App extends Component {
             </TouchableWithoutFeedback>
           </View>
 
-          <View className='image'>
-            <Image src={this.state.colorCheck === 1 ? this.state.showImageP.src || IMAGES.FAIL : this.state.showImageK.src || IMAGES.FAIL} alt="" className='mainImage' />
+          <View>
+            <Image src={this.state.colorCheck === 1 ? this.state.showImageP || IMAGES.FAIL : this.state.showImageK || IMAGES.FAIL} alt="" className='mainImage' />
           </View>
 
-          <TouchableWithoutFeedback onPress={this.dianzhan}>
+          <TouchableWithoutFeedback onPress={this.giveLive}>
             <View className='count'>
               <Image src={IMAGES.DIANZHAN} className='onloadImage' alt="" />
             </View>

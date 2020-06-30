@@ -46,9 +46,10 @@
 
 /* 主图 */
 .mainImage{
-  margin-right: 20px;
+  margin:0 auto;
   width:617.4px;
   height:347.9px;
+  border-radius: 40px;
 }
 
 
