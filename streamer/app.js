@@ -13,13 +13,13 @@ class App extends Component {
     super(props)
     this.state = {
       colorCheck: 1,  //主题切换
-      // value: 0,
+      value: 0,
       imageP: '',     //P的图片预览
       imageK: '',     //K的图片预览
       showImageP: '', //P的图片显示
       showImageK: '', //K的图片显示
       userList: {},    //用户点赞列表
-      imgIdArr: []    //请求图片的id数组
+      imgIdArr: []
     }
   }
 
@@ -30,7 +30,7 @@ class App extends Component {
 
   // 切换到P
   checkToP = () => {
-    Tip.show(`切换到P成功`, 500, 'center')
+    Tip.show(`切换到P成功l!`, 500, 'center')
     this.setState({
       colorCheck: 1,
     })
@@ -38,7 +38,7 @@ class App extends Component {
   }
   // 切换到K
   checkToK = () => {
-    Tip.show(`切换到K成功`, 500, 'center')
+    Tip.show(`切换到K成功1!`, 500, 'center')
     this.setState({
       colorCheck: 0,
     })
@@ -52,10 +52,10 @@ class App extends Component {
       this.setState({
         imageP: imgInfo.url
       })
-      Tip.show('上传P成功', 500, 'center')
+      Tip.show('上传P成功', 1000, 'center')
     }).catch(err => {
       hyExt.logger.info('上传图片失败，错误信息：' + err.message)
-      Tip.show('上传失败，请重新上传', 500, 'center')
+      Tip.show('上传失败，请重新上传', 1000, 'center')
     })
 
   }
@@ -65,14 +65,14 @@ class App extends Component {
       this.setState({
         imageK: imgInfo.url
       })
-      Tip.show('上传P成功', 500, 'center')
+      Tip.show('上传P成功', 1000, 'center')
     }).catch(err => {
       hyExt.logger.info('上传图片失败，错误信息：' + err.message)
-      Tip.show('上传失败，请重新上传', 500, 'center')
+      Tip.show('上传失败，请重新上传', 1000, 'center')
     })
 
   }
-  //点击上传图片按钮
+  //点击上传图片
   dianzhan = () => {
     // 打开上传图片弹窗
     this._modalA.open()
@@ -91,15 +91,18 @@ class App extends Component {
       },
       dataType: 'json'
     }
-    (imageP==0||imageK==0)?
-    Tip.show("请上传图片", 500, 'top'): 
-    hyExt.request(args).then(resp => {
-      hyExt.logger.info('发送HTTP请求成功，返回：' + JSON.stringify(resp))
-      console.log(resp);
+    if (imageP == 0 || imageK == 0) {
+      Tip.show("请正确上传图片", 500, 'center')
+    } else {
+      hyExt.request(args).then(resp => {
+        hyExt.logger.info('发送HTTP请求成功，返回：' + JSON.stringify(resp))
+        console.log(resp);
 
-    }).catch(err => {
-      hyExt.logger.info('发送HTTP请求失败，错误信息：' + err.message)
-    })
+      }).catch(err => {
+        hyExt.logger.info('发送HTTP请求失败，错误信息：' + err.message)
+      })
+    }
+
     this.getShowImages()
     this.cleanImage()
   }
@@ -225,7 +228,7 @@ class App extends Component {
           }
           cancelCallback={() => {
             console.log('cancel')
-            this.cleanImage();
+            this.cleanImage()
           }}
           confirmCallback={() => {
             console.log('confirm')
