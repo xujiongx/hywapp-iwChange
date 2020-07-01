@@ -11,8 +11,9 @@ class Zlist extends React.Component {
     }
 
     render() {
+        let {P,K}=this.props.userList
         let selector = null;
-        this.props.colorCheck == 0 ? selector = this.props.userList.P : selector = this.props.userList.K;
+        this.props.colorCheck == 0 ? selector = P : selector = K;
         return (
             <View className={this.props.colorCheck === 1 ? 'zList blueb' : 'zList redb'}>
                 <View className={this.props.colorCheck === 1 ? 'zhuLi  bluebg' : 'zhuLi  redbg'}>
@@ -32,7 +33,8 @@ class Zlist extends React.Component {
                     </View> :
                     <View className='userUl'>
                         {
-                            selector.map((item, index) => {
+                            //加了个||[]修复了app端兼容问题
+                            Array.from(selector||[]).map((item, index) => {
                                 return (<View key={index} className='userLi'>
                                     <Text className={this.props.colorCheck === 1 ? 'blueText' : 'redText'}>{item.rowid}</Text>
 

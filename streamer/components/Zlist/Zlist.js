@@ -11,7 +11,7 @@ class Zlist extends React.Component {
     }
 
     render() {
-        let selector = null;
+        let selector = [];
         this.props.colorCheck == 0 ? selector = this.props.userList.P : selector = this.props.userList.K;
         return (
             <View className={this.props.colorCheck === 1 ? 'zList blueb' : 'zList redb'}>
@@ -24,7 +24,7 @@ class Zlist extends React.Component {
                     <Text className='lh62 whiteText'>票数</Text>
                 </View>
 
-                {Object.values(this.props.userList)  == 0 ?
+                {Object.keys(this.props.userList)  == 0 ?
                     <View>
                         <Text className='helpText'>
                             暂无用户助力
@@ -32,7 +32,7 @@ class Zlist extends React.Component {
                     </View> :
                     <View className='userUl'>
                         {
-                            selector.map((item, index) => {
+                            (selector||[]).map((item, index) => {
                                 return (<View key={index} className='userLi'>
                                     <Text className={this.props.colorCheck === 1 ? 'blueText' : 'redText'}>{item.rowid}</Text>
 
