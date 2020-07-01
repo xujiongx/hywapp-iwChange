@@ -24,7 +24,7 @@ class Zlist extends React.Component {
                     <Text className='lh62 whiteText'>票数</Text>
                 </View>
 
-                {Object.keys(this.props.userList)  == 0 ?
+                {Object.values(this.props.userList)  == 0 ?
                     <View>
                         <Text className='helpText'>
                             暂无用户助力
