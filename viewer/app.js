@@ -1,9 +1,10 @@
 'use strict';
-import { TouchableWithoutFeedback } from 'react-native'
+import { TouchableWithoutFeedback} from 'react-native'
 import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './app.hycss'
 import Zlist from './components/Zlist/Zlist'
+import Tips from './components/Tips/Tips'
 import IMAGES from '../assets/index'
 
 const hyExt = global.hyExt
@@ -124,7 +125,7 @@ class App extends Component {
     //图片选择，根据id选择
     let imageId = null
     this.state.colorCheck == 1 ? imageId = imgIdArr[1] : imageId = imgIdArr[0];
-    console.log("点赞",imageId,colorCheck,userInfo);
+    console.log("点赞", imageId, colorCheck, userInfo);
     // 发送点赞请求
     let obj = {
       url: 'https://huyaxiaochengxu123456.xyz:8080/user/giveupa',
@@ -144,12 +145,12 @@ class App extends Component {
 
       Tip.show(`点赞成功!`, 2000, 'center')
     })
-    .then(()=>{
-      this.getUserList()
-    })
-    .catch(err => {
-      console.log(err);
-    })
+      .then(() => {
+        this.getUserList()
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
 
@@ -185,7 +186,10 @@ class App extends Component {
     // this.state.sec==0?timeText=<Text className='overTime'>(倒计时结束)</Text>:timeText=<Text className='overTime'>(倒计时:{this.state.sec} s)</Text>;
     return (
       <ScrollView nestedScrollEnabled={true} scrollViewRef={this.$refs} >
+
         <View className={this.state.colorCheck === 1 ? 'container blue' : 'container red'}>
+          <Tips colorCheck={this.state.colorCheck} />
+
           <View className='pk'>
             <TouchableWithoutFeedback onPress={this.checkToP}>
               <View className='pf'>

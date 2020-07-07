@@ -1,0 +1,12 @@
+.helper{
+  position: absolute;
+  top: 40px;
+  right: 30px;
+}
+
+.dropdown{
+    border-radius: 20px;
+    width: 300px;
+
+}
+
