@@ -3,6 +3,7 @@ import { UI } from '@hyext/hy-ui'
 import React, { Component } from 'react'
 import './app.hycss'
 import Zlist from './components/Zlist/Zlist'
+import Tips from './components/Tips/Tips'
 import IMAGES from '../assets/index'
 
 const hyExt = global.hyExt
@@ -181,6 +182,7 @@ class App extends Component {
   render() {
     return (
       <View className={this.state.colorCheck === 1 ? 'container blue' : 'container red'}>
+         <Tips colorCheck={this.state.colorCheck} />
         {/* PK按钮 */}
         <View className='pk'>
           <View className='pf'>
